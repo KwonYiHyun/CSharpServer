@@ -1,0 +1,13 @@
+{
+  "S_Login": [
+    {
+      "msg": "string",
+      "userlist": {
+        "user": "int"
+      }
+    }
+  ],
+  "C_Login": [
+
+  ]
+}
