@@ -146,15 +146,6 @@ public class {1} : IPacket
         " + varName + " = BitConverter.ToChar(buffer, " + varName + "Size" + @");
         offset += " + varName + @"Size;
         " + Environment.NewLine + "\t";
-                    #region 추가
-                    result = "byte[] " + varName + "Pkt = BitConverter.GetBytes(" + varName + @");
-        byte[] " + varName + "Size = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)" + varName + "Pkt.Length));";
-                    bytesLen += " + " + varName + "Pkt.Length + " + varName + "Size.Length";
-                    arrayCopy += @"Array.Copy(" + varName + @"Size, 0, buffer, offset, " + varName + @"Size.Length);
-        offset += " + varName + @"Size.Length;
-        Array.Copy(" + varName + "Pkt, 0, buffer, offset, " + varName + @"Pkt.Length);
-        offset += " + varName + "Pkt.Length;" + Environment.NewLine + Environment.NewLine + "\t";
-                    #endregion
                     break;
                 case "string":
                     read += "short " + varName + @"Size = IPAddress.NetworkToHostOrder(BitConverter.ToInt16(buffer, offset));
@@ -163,15 +154,6 @@ public class {1} : IPacket
         " + varName + " = Encoding.UTF8.GetString(buffer, offset, " + varName + "Size" + @");
         offset += " + varName + @"Size;
         " + Environment.NewLine + "\t";
-                    #region 추가
-                    result = "byte[] " + varName + "Pkt = Encoding.UTF8.GetBytes(" + varName + @");
-        byte[] " + varName + "Size = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)" + varName + "Pkt.Length));";
-                    bytesLen += " + " + varName + "Pkt.Length + " + varName + "Size.Length";
-                    arrayCopy += @"Array.Copy(" + varName + @"Size, 0, buffer, offset, " + varName + @"Size.Length);
-        offset += " + varName + @"Size.Length;
-        Array.Copy(" + varName + "Pkt, 0, buffer, offset, " + varName + @"Pkt.Length);
-        offset += " + varName + "Pkt.Length;" + Environment.NewLine + Environment.NewLine + "\t";
-                    #endregion
                     break;
                 case "bool":
                     read += "short " + varName + @"Size = IPAddress.NetworkToHostOrder(BitConverter.ToInt16(buffer, offset));
@@ -180,15 +162,6 @@ public class {1} : IPacket
         " + varName + " = BitConverter.ToBoolean(buffer, " + varName + "Size" + @");
         offset += " + varName + @"Size;
         " + Environment.NewLine + "\t";
-                    #region 추가
-                    result = "byte[] " + varName + "Pkt = BitConverter.GetBytes(" + varName + @");
-        byte[] " + varName + "Size = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)" + varName + "Pkt.Length));";
-                    bytesLen += " + " + varName + "Pkt.Length + " + varName + "Size.Length";
-                    arrayCopy += @"Array.Copy(" + varName + @"Size, 0, buffer, offset, " + varName + @"Size.Length);
-        offset += " + varName + @"Size.Length;
-        Array.Copy(" + varName + "Pkt, 0, buffer, offset, " + varName + @"Pkt.Length);
-        offset += " + varName + "Pkt.Length;" + Environment.NewLine + Environment.NewLine + "\t";
-                    #endregion
                     break;
                 case "short":
                     read += "short " + varName + @"Size = IPAddress.NetworkToHostOrder(BitConverter.ToInt16(buffer, offset));
@@ -197,15 +170,6 @@ public class {1} : IPacket
         " + varName + " = BitConverter.ToInt16(buffer, " + varName + "Size" + @");
         offset += " + varName + @"Size;
         " + Environment.NewLine + "\t";
-                    #region 추가
-                    result = "byte[] " + varName + "Pkt = BitConverter.GetBytes(" + varName + @");
-        byte[] " + varName + "Size = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)" + varName + "Pkt.Length));";
-                    bytesLen += " + " + varName + "Pkt.Length + " + varName + "Size.Length";
-                    arrayCopy += @"Array.Copy(" + varName + @"Size, 0, buffer, offset, " + varName + @"Size.Length);
-        offset += " + varName + @"Size.Length;
-        Array.Copy(" + varName + "Pkt, 0, buffer, offset, " + varName + @"Pkt.Length);
-        offset += " + varName + "Pkt.Length;" + Environment.NewLine + Environment.NewLine + "\t";
-                    #endregion
                     break;
                 case "int":
                     read += "short " + varName + @"Size = IPAddress.NetworkToHostOrder(BitConverter.ToInt16(buffer, offset));
@@ -214,15 +178,6 @@ public class {1} : IPacket
         " + varName + " = BitConverter.ToInt32(buffer, " + varName + "Size" + @");
         offset += " + varName + @"Size;
         " + Environment.NewLine + "\t";
-                    #region 추가
-                    result = "byte[] " + varName + "Pkt = BitConverter.GetBytes(" + varName + @");
-        byte[] " + varName + "Size = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)" + varName + "Pkt.Length));";
-                    bytesLen += " + " + varName + "Pkt.Length + " + varName + "Size.Length";
-                    arrayCopy += @"Array.Copy(" + varName + @"Size, 0, buffer, offset, " + varName + @"Size.Length);
-        offset += " + varName + @"Size.Length;
-        Array.Copy(" + varName + "Pkt, 0, buffer, offset, " + varName + @"Pkt.Length);
-        offset += " + varName + "Pkt.Length;" + Environment.NewLine + Environment.NewLine + "\t";
-                    #endregion
                     break;
                 case "long":
                     read += "short " + varName + @"Size = IPAddress.NetworkToHostOrder(BitConverter.ToInt16(buffer, offset));
@@ -231,15 +186,6 @@ public class {1} : IPacket
         " + varName + " = BitConverter.ToInt64(buffer, " + varName + "Size" + @");
         offset += " + varName + @"Size;
         " + Environment.NewLine + "\t";
-                    #region 추가
-                    result = "byte[] " + varName + "Pkt = BitConverter.GetBytes(" + varName + @");
-        byte[] " + varName + "Size = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)" + varName + "Pkt.Length));";
-                    bytesLen += " + " + varName + "Pkt.Length + " + varName + "Size.Length";
-                    arrayCopy += @"Array.Copy(" + varName + @"Size, 0, buffer, offset, " + varName + @"Size.Length);
-        offset += " + varName + @"Size.Length;
-        Array.Copy(" + varName + "Pkt, 0, buffer, offset, " + varName + @"Pkt.Length);
-        offset += " + varName + "Pkt.Length;" + Environment.NewLine + Environment.NewLine + "\t";
-                    #endregion
                     break;
                 case "float":
                     read += "short " + varName + @"Size = IPAddress.NetworkToHostOrder(BitConverter.ToInt16(buffer, offset));
@@ -248,15 +194,6 @@ public class {1} : IPacket
         " + varName + " = BitConverter.ToSingle(buffer, " + varName + "Size" + @");
         offset += " + varName + @"Size;
         " + Environment.NewLine + "\t";
-                    #region 추가
-                    result = "byte[] " + varName + "Pkt = BitConverter.GetBytes(" + varName + @");
-        byte[] " + varName + "Size = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)" + varName + "Pkt.Length));";
-                    bytesLen += " + " + varName + "Pkt.Length + " + varName + "Size.Length";
-                    arrayCopy += @"Array.Copy(" + varName + @"Size, 0, buffer, offset, " + varName + @"Size.Length);
-        offset += " + varName + @"Size.Length;
-        Array.Copy(" + varName + "Pkt, 0, buffer, offset, " + varName + @"Pkt.Length);
-        offset += " + varName + "Pkt.Length;" + Environment.NewLine + Environment.NewLine + "\t";
-                    #endregion
                     break;
                 case "double":
                     read += "short " + varName + @"Size = IPAddress.NetworkToHostOrder(BitConverter.ToInt16(buffer, offset));
@@ -265,15 +202,6 @@ public class {1} : IPacket
         " + varName + " = BitConverter.ToDouble(buffer, " + varName + "Size" + @");
         offset += " + varName + @"Size;
         " + Environment.NewLine + "\t";
-                    #region 추가
-                    result = "byte[] " + varName + "Pkt = BitConverter.GetBytes(" + varName + @");
-        byte[] " + varName + "Size = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)" + varName + "Pkt.Length));";
-                    bytesLen += " + " + varName + "Pkt.Length + " + varName + "Size.Length";
-                    arrayCopy += @"Array.Copy(" + varName + @"Size, 0, buffer, offset, " + varName + @"Size.Length);
-        offset += " + varName + @"Size.Length;
-        Array.Copy(" + varName + "Pkt, 0, buffer, offset, " + varName + @"Pkt.Length);
-        offset += " + varName + "Pkt.Length;" + Environment.NewLine + Environment.NewLine + "\t";
-                    #endregion
                     break;
                 case "list":
                     varName = str.Split("\",\"")[1].Split("\"")[0];
@@ -290,6 +218,43 @@ public class {1} : IPacket
 
             arr.Add(item);
         }";
+                    
+                    break;
+                default:
+                    break;
+            }
+
+            switch (vari)
+            {
+                case "string":
+                    #region 추가
+                    result = "byte[] " + varName + "Pkt = Encoding.UTF8.GetBytes(" + varName + @");
+        byte[] " + varName + "Size = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)" + varName + "Pkt.Length));";
+                    bytesLen += " + " + varName + "Pkt.Length + " + varName + "Size.Length";
+                    arrayCopy += @"Array.Copy(" + varName + @"Size, 0, buffer, offset, " + varName + @"Size.Length);
+        offset += " + varName + @"Size.Length;
+        Array.Copy(" + varName + "Pkt, 0, buffer, offset, " + varName + @"Pkt.Length);
+        offset += " + varName + "Pkt.Length;" + Environment.NewLine + Environment.NewLine + "\t";
+                    #endregion
+                    break;
+                case "char":
+                case "bool":
+                case "short":
+                case "int":
+                case "long":
+                case "float":
+                case "double":
+                    #region 추가
+                    result = "byte[] " + varName + "Pkt = BitConverter.GetBytes(" + varName + @");
+        byte[] " + varName + "Size = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)" + varName + "Pkt.Length));";
+                    bytesLen += " + " + varName + "Pkt.Length + " + varName + "Size.Length";
+                    arrayCopy += @"Array.Copy(" + varName + @"Size, 0, buffer, offset, " + varName + @"Size.Length);
+        offset += " + varName + @"Size.Length;
+        Array.Copy(" + varName + "Pkt, 0, buffer, offset, " + varName + @"Pkt.Length);
+        offset += " + varName + "Pkt.Length;" + Environment.NewLine + Environment.NewLine + "\t";
+                    #endregion
+                    break;
+                case "list":
                     #region 추가
                     result = "byte [] " + varName + "CountSize = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)" + varName + ".Count));";
                     bytesLen += " + " + varName + "CountSize.Length + sizeof(" + str.Split(": [\"")[1].Split("\"")[0] + ") * " + varName + ".Count";
