@@ -1,13 +1,19 @@
 {
   "S_Login": [
     {
-      "msg": "string",
-      "userlist": {
-        "user": "int"
-      }
+      "string": "msg",
+      "list": ["int","arr"]
     }
   ],
   "C_Login": [
-
+    {
+      "string": "msg",
+      "char": "ms"
+    }
+  ],
+  "S_PacketEnd": [
+    {
+      "string": "msg"
+    }
   ]
 }
