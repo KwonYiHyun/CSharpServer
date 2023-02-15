@@ -65,6 +65,32 @@ public class {1} : IPacket
         static string read = "";
         static string packetclasses = "";
 
+        static string packetManager = @"using System;
+using System.Collections.Generic;
+using System.Text;
+using Core;
+
+public static class PacketManager
+{{
+    public static Dictionary<PacketType, Action<Session, IPacket>> action = new Dictionary<PacketType, Action<Session, IPacket>>();
+    public static Dictionary<PacketType, Func<Session, byte[], IPacket>> packetTypes = new Dictionary<PacketType, Func<Session, byte[], IPacket>>();
+    public static PacketHandler packetHandler = new PacketHandler();
+
+    static PacketManager()
+    {{
+        {0}
+    }}
+
+    static T MakePacket<T>(Session session, byte[] buffer) where T : IPacket, new()
+    {{
+        T pkt = new T();
+        pkt.DeSerialize(buffer);
+        return pkt;
+    }}
+}}";
+
+        static string packetManagerAction = "";
+
         static void Main(string[] args)
         {
             string fileName = Directory.GetCurrentDirectory();
@@ -97,6 +123,12 @@ public class {1} : IPacket
                     arrayCopy = "";
                     read = "";
                     packetName = item.Split("\": [")[0].Split("\"")[1];
+
+                    if (!item.Contains("S_PacketEnd"))
+                    {
+                        packetManagerAction += "action.Add(PacketType." + packetName + ", packetHandler." + packetName + @"Action);
+        packetTypes.Add(PacketType." + packetName + ", MakePacket<" + packetName + ">);" + Environment.NewLine + Environment.NewLine + "\t\t";
+                    }
                 }
 
 
@@ -118,7 +150,13 @@ public class {1} : IPacket
                 }
             }
 
-            File.WriteAllText("packets.cs", string.Format(packets, packetclasses));
+
+            string filePath = Directory.GetCurrentDirectory();
+            filePath = Path.GetDirectoryName(filePath);
+            filePath = Path.GetDirectoryName(filePath);
+            filePath = Path.GetDirectoryName(filePath);
+            File.WriteAllText(filePath + "\\packets.cs", string.Format(packets, packetclasses));
+            File.WriteAllText(filePath + "\\PacketManager.cs", string.Format(packetManager, packetManagerAction));
         }
 
         static string getBytes(string str)

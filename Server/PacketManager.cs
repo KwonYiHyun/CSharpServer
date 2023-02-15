@@ -12,11 +12,12 @@ public static class PacketManager
     static PacketManager()
     {
         action.Add(PacketType.S_Login, packetHandler.S_LoginAction);
-        action.Add(PacketType.C_Login, packetHandler.C_LoginAction);
-        action.Add(PacketType.S_UserEnter, packetHandler.S_UserEnterAction);
-        action.Add(PacketType.C_UserEnter, packetHandler.C_UserEnterAction);
-
         packetTypes.Add(PacketType.S_Login, MakePacket<S_Login>);
+
+        action.Add(PacketType.C_Login, packetHandler.C_LoginAction);
+        packetTypes.Add(PacketType.C_Login, MakePacket<C_Login>);
+
+
     }
 
     static T MakePacket<T>(Session session, byte[] buffer) where T : IPacket, new()
