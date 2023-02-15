@@ -6,18 +6,11 @@ using Core;
 
 public class PacketHandler
 {
-    public async void S_LoginAction(Session session, IPacket packet)
+    public void S_LoginAction(Session session, IPacket packet)
     {
         S_Login pkt = packet as S_Login;
-        ClientSession clientSession = session as ClientSession;
 
-        Console.WriteLine($"S_LoginAction : {pkt.msg}");
-        foreach (var item in pkt.arr)
-        {
-            Console.WriteLine($"item : {item}");
-        }
-
-        await clientSession.SendAsync(pkt.Serialize());
+        Console.WriteLine("클라이언트 액션!");
     }
 
     public async void C_LoginAction(Session session, IPacket packet)

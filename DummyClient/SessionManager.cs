@@ -9,11 +9,12 @@ class SessionManager
     static SessionManager sessionManager = new SessionManager();
     public static SessionManager Instance { get { return sessionManager; } }
 
+    public Dictionary<int, ServerSession> sessions = new Dictionary<int, ServerSession>();
+        
     int sessionId = 0;
-    Dictionary<int, ClientSession> sessions = new Dictionary<int, ClientSession>();
     object _lock = new object();
 
-    public ClientSession Generate(Socket clientSocket)
+    public ServerSession Generate(Socket serverSocket)
     {
         lock (_lock)
         {
@@ -21,11 +22,11 @@ class SessionManager
 
             // 최적화 방안1 - 이쪽에서 Session 풀링하기
 
-            ClientSession session = new ClientSession();
+            ServerSession session = new ServerSession();
             session.sessionId = _sessionId;
             sessions.Add(_sessionId, session);
 
-            session.init(clientSocket);
+            session.init(serverSocket);
 
             return session;
         }

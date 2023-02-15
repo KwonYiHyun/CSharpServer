@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using System.Net;
-using System.Net.Sockets;
 using Core;
 
-public class ClientSession : Session
+public class ServerSession : Session
 {
     public override void OnConnected()
     {
@@ -18,12 +17,12 @@ public class ClientSession : Session
         Console.WriteLine("OnDisconnected");
     }
 
-    public override Task<int> ReceiveAsync(byte[] headerBuffer, SocketFlags flags = SocketFlags.None)
+    public override Task<int> ReceiveAsync(byte[] headerBuffer, SocketFlags flags)
     {
         return socket.ReceiveAsync(headerBuffer, flags);
     }
 
-    public override Task<int> ReceiveAsync(ArraySegment<byte> buffer, SocketFlags flags = SocketFlags.None)
+    public override Task<int> ReceiveAsync(ArraySegment<byte> buffer, SocketFlags flags)
     {
         return socket.ReceiveAsync(buffer, flags);
     }
@@ -33,7 +32,7 @@ public class ClientSession : Session
         return socket.SendAsync(headerBuffer, flags);
     }
 
-    public override Task<int> SendAsync(ArraySegment<byte> buffer, SocketFlags flags = SocketFlags.None)
+    public override Task<int> SendAsync(ArraySegment<byte> buffer, SocketFlags flags)
     {
         return socket.SendAsync(buffer, flags);
     }

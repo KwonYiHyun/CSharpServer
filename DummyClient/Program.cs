@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-
+using System.Threading.Tasks;
 
 class Program
 {
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
-        Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        Connector connector = new Connector();
 
         IPAddress ipA = IPAddress.Parse("127.0.0.1");
         IPEndPoint endPoint = new IPEndPoint(ipA, 7777);
 
-        socket.Connect(endPoint);
+        connector.init(endPoint);
+
+        await connector.ConnectAsync();
 
         List<int> arr = new List<int>();
         arr.Add(10);
@@ -27,7 +29,7 @@ class Program
             pkt.msg = "aaaa";
             pkt.arr = arr;
 
-            socket.Send(pkt.Serialize());
+            await SessionManager.Instance.sessions[1].SendAsync(pkt.Serialize());
 
             Thread.Sleep(1000);
         }

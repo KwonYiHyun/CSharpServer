@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
-namespace Server
+namespace Core
 {
     public abstract class Session
     {
@@ -15,8 +15,9 @@ namespace Server
         public abstract void OnConnected();
         public abstract void OnDisconnected();
 
-        public abstract Task<int> ReceiveAsync(byte[] _headerBuffer, SocketFlags flags);
+        public abstract Task<int> ReceiveAsync(byte[] headerBuffer, SocketFlags flags);
         public abstract Task<int> ReceiveAsync(ArraySegment<byte> buffer, SocketFlags flags);
+        public abstract Task<int> SendAsync(byte[] headerBuffer, SocketFlags flags);
         public abstract Task<int> SendAsync(ArraySegment<byte> buffer, SocketFlags flags);
 
         public void init(Socket _socket)
