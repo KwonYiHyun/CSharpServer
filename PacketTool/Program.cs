@@ -94,9 +94,7 @@ public static class PacketManager
         static void Main(string[] args)
         {
             string fileName = Directory.GetCurrentDirectory();
-            fileName = Path.GetDirectoryName(fileName);
-            fileName = Path.GetDirectoryName(fileName);
-            fileName = Path.GetDirectoryName(fileName) + "\\packet.json";
+            fileName = fileName + "\\packet.json";
             string jsonString = File.ReadAllText(fileName);
             Console.WriteLine(jsonString);
 
@@ -152,9 +150,6 @@ public static class PacketManager
 
 
             string filePath = Directory.GetCurrentDirectory();
-            filePath = Path.GetDirectoryName(filePath);
-            filePath = Path.GetDirectoryName(filePath);
-            filePath = Path.GetDirectoryName(filePath);
             File.WriteAllText(filePath + "\\packets.cs", string.Format(packets, packetclasses));
             File.WriteAllText(filePath + "\\PacketManager.cs", string.Format(packetManager, packetManagerAction));
         }
