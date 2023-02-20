@@ -28,6 +28,10 @@ class Program
             S_Login pkt = new S_Login();
             pkt.msg = "aaaa";
             pkt.arr = arr;
+            pkt.isMine = false;
+            pkt.pos = 3.14f;
+            pkt.id = 22222;
+            pkt.type = 't';
 
             await SessionManager.Instance.sessions[1].SendAsync(pkt.Serialize());
 

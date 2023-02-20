@@ -181,7 +181,7 @@ public static class PacketManager
                     read += "short " + varName + @"Size = IPAddress.NetworkToHostOrder(BitConverter.ToInt16(buffer, offset));
         offset += sizeof(short);
         
-        " + varName + " = BitConverter.ToChar(buffer, " + varName + "Size" + @");
+        " + varName + " = BitConverter.ToChar(buffer, offset" + @");
         offset += " + varName + @"Size;
         " + Environment.NewLine + "\t";
                     break;
@@ -197,7 +197,7 @@ public static class PacketManager
                     read += "short " + varName + @"Size = IPAddress.NetworkToHostOrder(BitConverter.ToInt16(buffer, offset));
         offset += sizeof(short);
         
-        " + varName + " = BitConverter.ToBoolean(buffer, " + varName + "Size" + @");
+        " + varName + " = BitConverter.ToBoolean(buffer, offset" + @");
         offset += " + varName + @"Size;
         " + Environment.NewLine + "\t";
                     break;
@@ -205,7 +205,7 @@ public static class PacketManager
                     read += "short " + varName + @"Size = IPAddress.NetworkToHostOrder(BitConverter.ToInt16(buffer, offset));
         offset += sizeof(short);
         
-        " + varName + " = BitConverter.ToInt16(buffer, " + varName + "Size" + @");
+        " + varName + " = BitConverter.ToInt16(buffer, offset" + @");
         offset += " + varName + @"Size;
         " + Environment.NewLine + "\t";
                     break;
@@ -213,7 +213,7 @@ public static class PacketManager
                     read += "short " + varName + @"Size = IPAddress.NetworkToHostOrder(BitConverter.ToInt16(buffer, offset));
         offset += sizeof(short);
         
-        " + varName + " = BitConverter.ToInt32(buffer, " + varName + "Size" + @");
+        " + varName + " = BitConverter.ToInt32(buffer, offset" + @");
         offset += " + varName + @"Size;
         " + Environment.NewLine + "\t";
                     break;
@@ -221,7 +221,7 @@ public static class PacketManager
                     read += "short " + varName + @"Size = IPAddress.NetworkToHostOrder(BitConverter.ToInt16(buffer, offset));
         offset += sizeof(short);
         
-        " + varName + " = BitConverter.ToInt64(buffer, " + varName + "Size" + @");
+        " + varName + " = BitConverter.ToInt64(buffer, offset" + @");
         offset += " + varName + @"Size;
         " + Environment.NewLine + "\t";
                     break;
@@ -229,7 +229,7 @@ public static class PacketManager
                     read += "short " + varName + @"Size = IPAddress.NetworkToHostOrder(BitConverter.ToInt16(buffer, offset));
         offset += sizeof(short);
         
-        " + varName + " = BitConverter.ToSingle(buffer, " + varName + "Size" + @");
+        " + varName + " = BitConverter.ToSingle(buffer, offset" + @");
         offset += " + varName + @"Size;
         " + Environment.NewLine + "\t";
                     break;
@@ -237,12 +237,12 @@ public static class PacketManager
                     read += "short " + varName + @"Size = IPAddress.NetworkToHostOrder(BitConverter.ToInt16(buffer, offset));
         offset += sizeof(short);
         
-        " + varName + " = BitConverter.ToDouble(buffer, " + varName + "Size" + @");
+        " + varName + " = BitConverter.ToDouble(buffer, offset" + @");
         offset += " + varName + @"Size;
         " + Environment.NewLine + "\t";
                     break;
                 case "list":
-                    varName = str.Split("\",\"")[1].Split("\"")[0];
+                    varName = str.Split("\", \"")[1].Split("\"")[0];
                     read += "short " + varName + @"CountSize = IPAddress.NetworkToHostOrder(BitConverter.ToInt16(buffer, offset));
         offset += sizeof(short);
 
@@ -255,7 +255,9 @@ public static class PacketManager
             offset += itemSize;
 
             arr.Add(item);
-        }";
+        }
+
+        ";
                     
                     break;
                 default:
@@ -295,7 +297,7 @@ public static class PacketManager
                 case "list":
                     #region 추가
                     result = "byte [] " + varName + "CountSize = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)" + varName + ".Count));";
-                    bytesLen += " + " + varName + "CountSize.Length + sizeof(" + str.Split(": [\"")[1].Split("\"")[0] + ") * " + varName + ".Count";
+                    bytesLen += " + " + varName + "CountSize.Length + sizeof(" + str.Split(": [ \"")[1].Split("\"")[0] + ") * " + varName + ".Count";
                     arrayCopy += "Array.Copy(" + varName + @"CountSize, 0, buffer, offset, " + varName + @"CountSize.Length);
         offset += " + varName + @"CountSize.Length;
 
@@ -332,7 +334,12 @@ public static class PacketManager
             switch (vari)
             {
                 case "list":
-                    result = "public List<" + str.Split(": [\"")[1].Split("\"")[0] + "> " + str.Split("\",\"")[1].Split("\"")[0] + " = new List<" + str.Split(": [\"")[1].Split("\"")[0] + ">();";
+                    //string[] aa = str.Split(": [\"");
+                    //string aaa = str.Split(": [\"")[1].Split("\"")[0];
+                    //string a = str.Split(": [\"")[1].Split("\"")[0];
+                    //string b = str.Split("\", \"")[1].Split("\"")[0];
+                    //string c = str.Split(": [\"")[1].Split("\"")[0];
+                    result = "public List<" + str.Split(": [ \"")[1].Split("\"")[0] + "> " + str.Split("\", \"")[1].Split("\"")[0] + " = new List<" + str.Split(": [ \"")[1].Split("\"")[0] + ">();";
                     break;
                 case "char":
                 case "string":

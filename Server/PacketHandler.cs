@@ -16,6 +16,10 @@ public class PacketHandler
         {
             Console.WriteLine($"item : {item}");
         }
+        Console.WriteLine($"isMine : {pkt.isMine}");
+        Console.WriteLine($"pos : {pkt.pos}");
+        Console.WriteLine($"id : {pkt.id}");
+        Console.WriteLine($"type : {pkt.type}");
 
         await clientSession.SendAsync(pkt.Serialize());
     }

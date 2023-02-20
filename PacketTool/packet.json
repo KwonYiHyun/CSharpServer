@@ -2,7 +2,11 @@
   "S_Login": [
     {
       "string": "msg",
-      "list": ["int","arr"]
+      "list": [ "int", "arr" ],
+      "bool": "isMine",
+      "float": "pos",
+      "int": "id",
+      "char": "type"
     }
   ],
   "C_Login": [
