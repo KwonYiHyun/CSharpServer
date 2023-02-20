@@ -23,7 +23,7 @@ class Program
         arr.Add(20);
         arr.Add(30);
 
-        while (true)
+        for (int i = 0; i < 2000; i++)
         {
             S_Login pkt = new S_Login();
             pkt.msg = "aaaa";
@@ -35,7 +35,7 @@ class Program
 
             await SessionManager.Instance.sessions[1].SendAsync(pkt.Serialize());
 
-            Thread.Sleep(1000);
+            Thread.Sleep(10);
         }
     }
 }

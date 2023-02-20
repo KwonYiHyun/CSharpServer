@@ -8,9 +8,12 @@ using Core;
 
 public class ClientSession : Session
 {
+    public GameRoom Room { get; set; }
+
     public override void OnConnected()
     {
         Console.WriteLine("OnConnected");
+        Program.room.Push(() => Program.room.Enter(this));
     }
 
     public override void OnDisconnected()

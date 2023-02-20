@@ -6,25 +6,28 @@ using Core;
 
 public class PacketHandler
 {
-    public async void S_LoginAction(Session session, IPacket packet)
+    int count = 0;
+
+    public void S_LoginAction(ClientSession session, IPacket packet)
     {
         S_Login pkt = packet as S_Login;
         ClientSession clientSession = session as ClientSession;
 
-        Console.WriteLine($"S_LoginAction : {pkt.msg}");
-        foreach (var item in pkt.arr)
-        {
-            Console.WriteLine($"item : {item}");
-        }
-        Console.WriteLine($"isMine : {pkt.isMine}");
-        Console.WriteLine($"pos : {pkt.pos}");
-        Console.WriteLine($"id : {pkt.id}");
-        Console.WriteLine($"type : {pkt.type}");
+        //Console.WriteLine($"S_LoginAction : {pkt.msg}");
+        //foreach (var item in pkt.arr)
+        //{
+        //    Console.WriteLine($"item : {item}");
+        //}
+        //Console.WriteLine($"isMine : {pkt.isMine}");
+        //Console.WriteLine($"pos : {pkt.pos}");
+        //Console.WriteLine($"id : {pkt.id}");
+        //Console.WriteLine($"type : {pkt.type}");
 
-        await clientSession.SendAsync(pkt.Serialize());
+        session.Room.Push(() => { session.Room.Broadcast(session); });
+        Console.WriteLine("count = " + count);
     }
 
-    public async void C_LoginAction(Session session, IPacket packet)
+    public async void C_LoginAction(ClientSession session, IPacket packet)
     {
         C_Login pkt = packet as C_Login;
 
@@ -33,14 +36,14 @@ public class PacketHandler
         await Task.Delay(100);
     }
 
-    public async void S_UserEnterAction(Session session, IPacket packet)
+    public async void S_UserEnterAction(ClientSession session, IPacket packet)
     {
         Console.WriteLine("S_UserEnterAction");
 
         await Task.Delay(100);
     }
 
-    public async void C_UserEnterAction(Session session, IPacket packet)
+    public async void C_UserEnterAction(ClientSession session, IPacket packet)
     {
         Console.WriteLine("C_UserEnterAction");
 

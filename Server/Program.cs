@@ -7,6 +7,8 @@ class Program
 {
     static Listener listener = new Listener();
 
+    public static GameRoom room = new GameRoom();
+
     static async Task Main(string[] args)
     {
         /*
@@ -21,18 +23,5 @@ class Program
 
         listener.init(endPoint, 50);
         await listener.StartAsync();
-
-        /*
-        string str = Console.ReadLine();
-        int n = int.Parse(str);
-
-        Session session = new Session();
-
-        S_Login packet = new S_Login();
-        packet.protocol = (ushort)n;
-        packet.msg = "S_Login";
-
-        PacketManager.PA(session, packet);
-        */
     }
 }

@@ -87,7 +87,7 @@ public class Listener
                 PacketType type = (PacketType)IPAddress.NetworkToHostOrder(BitConverter.ToInt16(dataBuffer));
                 IPacket pkt = null;
 
-                Func<Session, byte[], IPacket> func;
+                Func<ClientSession, byte[], IPacket> func;
 
                 if (PacketManager.packetTypes.TryGetValue(type, out func))
                 {
@@ -98,7 +98,7 @@ public class Listener
                     Console.WriteLine("Listener.RunAsync (ERROR) [Type에 맞는 패킷이 없습니다.]");
                 }
 
-                Action<Session, IPacket> action;
+                Action<ClientSession, IPacket> action;
                 if (PacketManager.action.TryGetValue(type, out action))
                 {
                     action?.Invoke(session, pkt);
