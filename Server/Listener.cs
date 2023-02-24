@@ -11,7 +11,7 @@ public class Listener
 {
     private Socket socket;
 
-    public void init(IPEndPoint endPoint, int backlog)
+    public void Init(IPEndPoint endPoint, int backlog)
     {
         Console.WriteLine("Server Init");
         socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -49,6 +49,7 @@ public class Listener
         {
             while (true)
             {
+                // Console.WriteLine("RunAsync ThreadCount = " + ThreadPool.ThreadCount);
                 var t1 = session.ReceiveAsync(headerBuffer);
                 var t2 = Task.Delay(1000 * 20);
 
@@ -58,6 +59,7 @@ public class Listener
                 {
                     Console.WriteLine("client disconnect");
                     // TODO 소켓 dispose, 자원해제
+                    session.Dispose();
                     return;
                 }
 
@@ -67,6 +69,7 @@ public class Listener
                 {
                     Console.WriteLine("client disconnect");
                     // TODO 소켓 dispose, 자원해제
+                    session.Dispose();
                     return;
                 }
                 else if (n1 == 1)

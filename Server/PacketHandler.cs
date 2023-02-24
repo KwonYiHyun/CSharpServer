@@ -23,8 +23,8 @@ public class PacketHandler
         //Console.WriteLine($"id : {pkt.id}");
         //Console.WriteLine($"type : {pkt.type}");
 
-        session.Room.Push(() => { session.Room.Broadcast(session); });
-        Console.WriteLine("count = " + count);
+        // session.Room.Push(() => { Console.WriteLine("S_LoginActionHandler"); });
+        // session.Room.Push(() => { session.Room.Broadcast(session); });
     }
 
     public async void C_LoginAction(ClientSession session, IPacket packet)

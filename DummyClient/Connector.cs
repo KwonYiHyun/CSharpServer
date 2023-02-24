@@ -95,6 +95,10 @@ public class Connector
         {
             Console.WriteLine(e);
         }
+    }
 
+    public void Dispose()
+    {
+        socket.Dispose();
     }
 }

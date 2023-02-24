@@ -10,6 +10,11 @@ public class ClientSession : Session
 {
     public GameRoom Room { get; set; }
 
+    public void Dispose()
+    {
+        socket.Dispose();
+    }
+
     public override void OnConnected()
     {
         Console.WriteLine("OnConnected");

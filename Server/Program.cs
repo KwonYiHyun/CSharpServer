@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using System.Threading.Tasks;
 
 class Program
@@ -18,10 +19,12 @@ class Program
         IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
         */
 
+        // ThreadPool.SetMinThreads(50, 10);
+
         IPAddress ipA = IPAddress.Parse("127.0.0.1");
         IPEndPoint endPoint = new IPEndPoint(ipA, 7777);
 
-        listener.init(endPoint, 50);
+        listener.Init(endPoint, 50);
         await listener.StartAsync();
     }
 }
