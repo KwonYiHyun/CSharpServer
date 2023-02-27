@@ -16,8 +16,6 @@
     }
   ],
   "S_PacketEnd": [
-    {
-      "string": "msg"
-    }
+
   ]
 }

@@ -65,15 +65,38 @@ public class {1} : IPacket
         static string read = "";
         static string packetclasses = "";
 
-        static string packetManager = @"using System;
+        static string serverPacketManager = @"using System;
 using System.Collections.Generic;
 using System.Text;
 using Core;
 
 public static class PacketManager
 {{
-    public static Dictionary<PacketType, Action<Session, IPacket>> action = new Dictionary<PacketType, Action<Session, IPacket>>();
-    public static Dictionary<PacketType, Func<Session, byte[], IPacket>> packetTypes = new Dictionary<PacketType, Func<Session, byte[], IPacket>>();
+    public static Dictionary<PacketType, Action<ClientSession, IPacket>> action = new Dictionary<PacketType, Action<ClientSession, IPacket>>();
+    public static Dictionary<PacketType, Func<ClientSession, byte[], IPacket>> packetTypes = new Dictionary<PacketType, Func<ClientSession, byte[], IPacket>>();
+    public static PacketHandler packetHandler = new PacketHandler();
+
+    static PacketManager()
+    {{
+        {0}
+    }}
+
+    static T MakePacket<T>(Session session, byte[] buffer) where T : IPacket, new()
+    {{
+        T pkt = new T();
+        pkt.DeSerialize(buffer);
+        return pkt;
+    }}
+}}";
+        static string clientPacketManager = @"using System;
+using System.Collections.Generic;
+using System.Text;
+using Core;
+
+public static class PacketManager
+{{
+    public static Dictionary<PacketType, Action<ServerSession, IPacket>> action = new Dictionary<PacketType, Action<ServerSession, IPacket>>();
+    public static Dictionary<PacketType, Func<ServerSession, byte[], IPacket>> packetTypes = new Dictionary<PacketType, Func<ServerSession, byte[], IPacket>>();
     public static PacketHandler packetHandler = new PacketHandler();
 
     static PacketManager()
@@ -89,7 +112,21 @@ public static class PacketManager
     }}
 }}";
 
-        static string packetManagerAction = "";
+        static string packetManagerClientAction = "";
+        static string packetManagerServerAction = "";
+
+        static string packetType = @"
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+
+public enum PacketType
+{{
+    INDEX,
+    {0}
+}}
+";
 
         static void Main(string[] args)
         {
@@ -105,6 +142,8 @@ public static class PacketManager
             string packetName = "";
             string packetVariable = "";
             string packetByte = "";
+
+            string types = "";
 
 
             foreach (var item in json)
@@ -124,8 +163,18 @@ public static class PacketManager
 
                     if (!item.Contains("S_PacketEnd"))
                     {
-                        packetManagerAction += "action.Add(PacketType." + packetName + ", packetHandler." + packetName + @"Action);
+                        if (item.Contains("S_"))
+                        {
+                            packetManagerClientAction += "action.Add(PacketType." + packetName + ", packetHandler." + packetName + @"Action);
         packetTypes.Add(PacketType." + packetName + ", MakePacket<" + packetName + ">);" + Environment.NewLine + Environment.NewLine + "\t\t";
+                        }
+                        else if (item.Contains("C_"))
+                        {
+                            packetManagerServerAction += "action.Add(PacketType." + packetName + ", packetHandler." + packetName + @"Action);
+        packetTypes.Add(PacketType." + packetName + ", MakePacket<" + packetName + ">);" + Environment.NewLine + Environment.NewLine + "\t\t";
+                        }
+
+                        types += packetName + "," + Environment.NewLine + "\t";
                     }
                 }
 
@@ -151,7 +200,9 @@ public static class PacketManager
 
             string filePath = Directory.GetCurrentDirectory();
             File.WriteAllText(filePath + "\\packets.cs", string.Format(packets, packetclasses));
-            File.WriteAllText(filePath + "\\PacketManager.cs", string.Format(packetManager, packetManagerAction));
+            File.WriteAllText(filePath + "\\ServerPacketManager.cs", string.Format(serverPacketManager, packetManagerServerAction));
+            File.WriteAllText(filePath + "\\ClientPacketManager.cs", string.Format(clientPacketManager, packetManagerClientAction));
+            File.WriteAllText(filePath + "\\PacketType.cs", string.Format(packetType, types));
         }
 
         static string getBytes(string str)
@@ -329,11 +380,6 @@ public static class PacketManager
             switch (vari)
             {
                 case "list":
-                    //string[] aa = str.Split(": [\"");
-                    //string aaa = str.Split(": [\"")[1].Split("\"")[0];
-                    //string a = str.Split(": [\"")[1].Split("\"")[0];
-                    //string b = str.Split("\", \"")[1].Split("\"")[0];
-                    //string c = str.Split(": [\"")[1].Split("\"")[0];
                     result = "public List<" + str.Split(": [ \"")[1].Split("\"")[0] + "> " + str.Split("\", \"")[1].Split("\"")[0] + " = new List<" + str.Split(": [ \"")[1].Split("\"")[0] + ">();";
                     break;
                 case "char":
