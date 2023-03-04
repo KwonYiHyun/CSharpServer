@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using Core;
 
-public static class PacketManager
+public class PacketManager
 {
     public static Dictionary<PacketType, Action<ServerSession, IPacket>> action = new Dictionary<PacketType, Action<ServerSession, IPacket>>();
     public static Dictionary<PacketType, Func<ServerSession, byte[], IPacket>> packetTypes = new Dictionary<PacketType, Func<ServerSession, byte[], IPacket>>();
     public static PacketHandler packetHandler = new PacketHandler();
+
+    static PacketManager _instance = new PacketManager();
+    public static PacketManager Instance { get { return _instance; } }
 
     static PacketManager()
     {
@@ -22,5 +25,14 @@ public static class PacketManager
         T pkt = new T();
         pkt.DeSerialize(buffer);
         return pkt;
+    }
+
+    public void HandlePacket(ServerSession session, IPacket type)
+    {
+        Action<ServerSession, IPacket> _action = null;
+        if (action.TryGetValue((PacketType)type.Protocol, out _action))
+        {
+            _action.Invoke(session, type);
+        }
     }
 }

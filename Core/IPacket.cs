@@ -6,6 +6,8 @@ namespace Core
 {
     public interface IPacket
     {
+        short Protocol { get; set; }
+
         byte[] Serialize();
 
         void DeSerialize(byte[] buffer);

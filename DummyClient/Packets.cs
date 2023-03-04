@@ -13,6 +13,7 @@ public class Packets
 
 public class S_Login : IPacket
 {
+    public short Protocol { get; set; } = (short)PacketType.S_Login;
     public string msg;
     public List<int> arr = new List<int>();
     public bool isMine;
@@ -23,7 +24,7 @@ public class S_Login : IPacket
 
     public byte[] Serialize()
     {
-        byte[] packetType = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)PacketType.S_Login));
+        byte[] packetType = BitConverter.GetBytes(IPAddress.HostToNetworkOrder(Protocol));
         
         byte[] msgPkt = Encoding.UTF8.GetBytes(msg);
         byte[] msgSize = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)msgPkt.Length));
@@ -149,13 +150,14 @@ public class S_Login : IPacket
 
 public class C_Login : IPacket
 {
+    public short Protocol { get; set; } = (short)PacketType.C_Login;
     public string msg;
     public char ms;
     
 
     public byte[] Serialize()
     {
-        byte[] packetType = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)PacketType.C_Login));
+        byte[] packetType = BitConverter.GetBytes(IPAddress.HostToNetworkOrder(Protocol));
         
         byte[] msgPkt = Encoding.UTF8.GetBytes(msg);
         byte[] msgSize = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)msgPkt.Length));

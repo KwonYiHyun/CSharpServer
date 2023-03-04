@@ -25,12 +25,10 @@ public class Listener
         {
             try
             {
-                Console.WriteLine("----");
                 Socket clientSocket = await socket.AcceptAsync();
                 ClientSession session = SessionManager.Instance.Generate(clientSocket);
                 session.OnConnected();
                 ThreadPool.QueueUserWorkItem(RunAsync, session);
-                Console.WriteLine("1");
             }
             catch (SocketException e)
             {
