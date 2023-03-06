@@ -25,13 +25,8 @@ class Program
 
         for (int i = 0; i < 200; i++)
         {
-            S_Login pkt = new S_Login();
-            pkt.msg = "aaaa";
-            pkt.arr = arr;
-            pkt.isMine = false;
-            pkt.pos = 3.14f;
-            pkt.id = 22222;
-            pkt.type = 't';
+            C_Login pkt = new C_Login();
+            pkt.msg = "aaaa" + i;
 
             await SessionManager.Instance.sessions[1].SendAsync(pkt.Serialize());
 

@@ -10,7 +10,7 @@ public class PacketHandler
     {
         S_Login pkt = packet as S_Login;
 
-        Console.WriteLine("클라이언트 액션!");
+        Console.WriteLine("클라이언트 액션!" + pkt.msg);
     }
 
     public async void C_LoginAction(Session session, IPacket packet)

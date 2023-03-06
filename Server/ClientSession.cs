@@ -18,7 +18,7 @@ public class ClientSession : Session
     public override void OnConnected()
     {
         Console.WriteLine("OnConnected");
-        Program.room.Push(() => Program.room.Enter(this));
+        // Program.room.Push(() => Program.room.Enter(this));
     }
 
     public override void OnDisconnected()

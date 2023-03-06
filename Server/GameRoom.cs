@@ -4,15 +4,9 @@ using System.Text;
 using Core;
 
 
-public class GameRoom : IJobQueue
+public class GameRoom
 {
     List<ClientSession> _sessions = new List<ClientSession>();
-    JobQueue _jobQueue = new JobQueue();
-
-    public void Push(Action job)
-    {
-        _jobQueue.Push(job);
-    }
 
     public async void Broadcast(ClientSession session)
     {
@@ -33,5 +27,10 @@ public class GameRoom : IJobQueue
     public void Leave(ClientSession session)
     {
         _sessions.Remove(session);
+    }
+
+    public void Push(ClientSession session, Action action)
+    {
+        Program.roomManager.Push(action);
     }
 }
