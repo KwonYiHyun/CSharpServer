@@ -2,10 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 public class GameRoomManager : IJobQueue
 {
-    GameRoom lobbyRoom;
+    public GameLobby gameLobby = new GameLobby();
 
     int _roomId = 0;
     Dictionary<int, GameRoom> _rooms = new Dictionary<int, GameRoom>();
@@ -20,17 +21,9 @@ public class GameRoomManager : IJobQueue
         }
     }
 
-    public GameRoom LobbyRoom
-    {
-        get
-        {
-            return lobbyRoom;
-        }
-    }
-
     public GameRoomManager()
     {
-        lobbyRoom = new GameRoom();
+
     }
 
     public void Push(Action job)
@@ -38,34 +31,38 @@ public class GameRoomManager : IJobQueue
         _jobQueue.Push(job);
     }
 
-    public GameRoom Generate(ClientSession owner, string roomName, int roomLimit)
+    public GameRoom Generate()
     {
         lock (_lock)
         {
             int roomId = ++_roomId;
 
             GameRoom room = new GameRoom();
-
+            room.RoomId = roomId;
             _rooms.Add(roomId, room);
 
             return room;
         }
     }
 
-    public void Flush()
+    public async Task Flush()
     {
-        // _jobQueue.fl
+        foreach (KeyValuePair<int, GameRoom> room in _rooms)
+        {
+            await room.Value.Flush();
+        }
+        await gameLobby.Flush();
     }
 
-    //public GameRoom Find(int id)
-    //{
-    //    lock (_lock)
-    //    {
-    //        GameRoom room = null;
-    //        _rooms.TryGetValue(id, out room);
-    //        return room;
-    //    }
-    //}
+    public GameRoom Find(int id)
+    {
+        lock (_lock)
+        {
+            GameRoom room = null;
+            _rooms.TryGetValue(id, out room);
+            return room;
+        }
+    }
 
     public void Remove(ClientSession session)
     {
@@ -73,8 +70,8 @@ public class GameRoomManager : IJobQueue
         {
             if (session == null) return;
 
-            // _rooms.Remove(session.Room.RoomId);
-            session.Room = lobbyRoom;
+            _rooms.Remove(session.Room.RoomId);
+            session.Room = gameLobby;
         }
     }
 

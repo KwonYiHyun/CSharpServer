@@ -6,8 +6,6 @@ using Core;
 
 public class PacketHandler
 {
-    int count = 0;
-
     public void S_LoginAction(ClientSession session, IPacket packet)
     {
         S_Login pkt = packet as S_Login;
@@ -29,7 +27,7 @@ public class PacketHandler
         Console.WriteLine("id = " + pkt.id + " / msg = " + pkt.msg);
     }
 
-    public async void C_LoginAction(ClientSession session, IPacket packet)
+    public void C_LoginAction(ClientSession session, IPacket packet)
     {
         C_Login pkt = packet as C_Login;
         ClientSession clientSession = session as ClientSession;
@@ -40,7 +38,9 @@ public class PacketHandler
         S_Login pp = new S_Login();
         pp.msg = "c -> s";
 
-        await clientSession.SendAsync(pp.Serialize());
+        // await clientSession.SendAsync(pp.Serialize());
+
+        Program.roomManager.Push(async () => await clientSession.SendAsync(pp.Serialize()));
     }
 
     public async void S_UserEnterAction(ClientSession session, IPacket packet)

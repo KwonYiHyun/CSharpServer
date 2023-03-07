@@ -212,3 +212,159 @@ public class C_Login : IPacket
 }
 
 
+public class S_PlayerMove : IPacket
+{
+    public short Protocol { get; set; } = (short)PacketType.S_PlayerMove;
+    public int posX;
+    public int posY;
+    public int posZ;
+    
+
+    public byte[] Serialize()
+    {
+        byte[] packetType = BitConverter.GetBytes(IPAddress.HostToNetworkOrder(Protocol));
+        
+        byte[] posXPkt = BitConverter.GetBytes(posX);
+        byte[] posXSize = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)posXPkt.Length));
+	byte[] posYPkt = BitConverter.GetBytes(posY);
+        byte[] posYSize = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)posYPkt.Length));
+	byte[] posZPkt = BitConverter.GetBytes(posZ);
+        byte[] posZSize = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)posZPkt.Length));
+	
+	short dataSize = (short)(packetType.Length + posXPkt.Length + posXSize.Length + posYPkt.Length + posYSize.Length + posZPkt.Length + posZSize.Length);
+        byte[] header = BitConverter.GetBytes(IPAddress.HostToNetworkOrder(dataSize));
+
+        byte[] buffer = new byte[2 + dataSize];
+
+        int offset = 0;
+
+        Array.Copy(header, 0, buffer, offset, header.Length);
+        offset += header.Length;
+
+        Array.Copy(packetType, 0, buffer, offset, packetType.Length);
+        offset += packetType.Length;
+        
+        Array.Copy(posXSize, 0, buffer, offset, posXSize.Length);
+        offset += posXSize.Length;
+        Array.Copy(posXPkt, 0, buffer, offset, posXPkt.Length);
+        offset += posXPkt.Length;
+
+	Array.Copy(posYSize, 0, buffer, offset, posYSize.Length);
+        offset += posYSize.Length;
+        Array.Copy(posYPkt, 0, buffer, offset, posYPkt.Length);
+        offset += posYPkt.Length;
+
+	Array.Copy(posZSize, 0, buffer, offset, posZSize.Length);
+        offset += posZSize.Length;
+        Array.Copy(posZPkt, 0, buffer, offset, posZPkt.Length);
+        offset += posZPkt.Length;
+
+	
+        return buffer;
+    }
+
+    public void DeSerialize(byte[] buffer)
+    {
+        int offset = 2;
+
+        short posXSize = IPAddress.NetworkToHostOrder(BitConverter.ToInt16(buffer, offset));
+        offset += sizeof(short);
+        
+        posX = BitConverter.ToInt32(buffer, offset);
+        offset += posXSize;
+        
+	short posYSize = IPAddress.NetworkToHostOrder(BitConverter.ToInt16(buffer, offset));
+        offset += sizeof(short);
+        
+        posY = BitConverter.ToInt32(buffer, offset);
+        offset += posYSize;
+        
+	short posZSize = IPAddress.NetworkToHostOrder(BitConverter.ToInt16(buffer, offset));
+        offset += sizeof(short);
+        
+        posZ = BitConverter.ToInt32(buffer, offset);
+        offset += posZSize;
+        
+	
+    }
+}
+
+
+public class C_PlayerMove : IPacket
+{
+    public short Protocol { get; set; } = (short)PacketType.C_PlayerMove;
+    public int posX;
+    public int posY;
+    public int posZ;
+    
+
+    public byte[] Serialize()
+    {
+        byte[] packetType = BitConverter.GetBytes(IPAddress.HostToNetworkOrder(Protocol));
+        
+        byte[] posXPkt = BitConverter.GetBytes(posX);
+        byte[] posXSize = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)posXPkt.Length));
+	byte[] posYPkt = BitConverter.GetBytes(posY);
+        byte[] posYSize = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)posYPkt.Length));
+	byte[] posZPkt = BitConverter.GetBytes(posZ);
+        byte[] posZSize = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)posZPkt.Length));
+	
+	short dataSize = (short)(packetType.Length + posXPkt.Length + posXSize.Length + posYPkt.Length + posYSize.Length + posZPkt.Length + posZSize.Length);
+        byte[] header = BitConverter.GetBytes(IPAddress.HostToNetworkOrder(dataSize));
+
+        byte[] buffer = new byte[2 + dataSize];
+
+        int offset = 0;
+
+        Array.Copy(header, 0, buffer, offset, header.Length);
+        offset += header.Length;
+
+        Array.Copy(packetType, 0, buffer, offset, packetType.Length);
+        offset += packetType.Length;
+        
+        Array.Copy(posXSize, 0, buffer, offset, posXSize.Length);
+        offset += posXSize.Length;
+        Array.Copy(posXPkt, 0, buffer, offset, posXPkt.Length);
+        offset += posXPkt.Length;
+
+	Array.Copy(posYSize, 0, buffer, offset, posYSize.Length);
+        offset += posYSize.Length;
+        Array.Copy(posYPkt, 0, buffer, offset, posYPkt.Length);
+        offset += posYPkt.Length;
+
+	Array.Copy(posZSize, 0, buffer, offset, posZSize.Length);
+        offset += posZSize.Length;
+        Array.Copy(posZPkt, 0, buffer, offset, posZPkt.Length);
+        offset += posZPkt.Length;
+
+	
+        return buffer;
+    }
+
+    public void DeSerialize(byte[] buffer)
+    {
+        int offset = 2;
+
+        short posXSize = IPAddress.NetworkToHostOrder(BitConverter.ToInt16(buffer, offset));
+        offset += sizeof(short);
+        
+        posX = BitConverter.ToInt32(buffer, offset);
+        offset += posXSize;
+        
+	short posYSize = IPAddress.NetworkToHostOrder(BitConverter.ToInt16(buffer, offset));
+        offset += sizeof(short);
+        
+        posY = BitConverter.ToInt32(buffer, offset);
+        offset += posYSize;
+        
+	short posZSize = IPAddress.NetworkToHostOrder(BitConverter.ToInt16(buffer, offset));
+        offset += sizeof(short);
+        
+        posZ = BitConverter.ToInt32(buffer, offset);
+        offset += posZSize;
+        
+	
+    }
+}
+
+

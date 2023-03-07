@@ -19,6 +19,7 @@ namespace Core
         public abstract Task<int> ReceiveAsync(ArraySegment<byte> buffer, SocketFlags flags);
         public abstract Task<int> SendAsync(byte[] headerBuffer, SocketFlags flags);
         public abstract Task<int> SendAsync(ArraySegment<byte> buffer, SocketFlags flags);
+        public abstract Task SendAsync(List<ArraySegment<byte>> buffer);
 
         public void init(Socket _socket)
         {

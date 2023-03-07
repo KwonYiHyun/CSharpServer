@@ -12,7 +12,7 @@ class Program
 
     static void FlushRoom()
     {
-        roomManager.Push(() => roomManager.Flush());
+        roomManager.Push(async () => await roomManager.Flush());
         JobTimer.Instance.Push(FlushRoom, 250);
     }
 

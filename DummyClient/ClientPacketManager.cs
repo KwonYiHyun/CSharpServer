@@ -17,6 +17,9 @@ public class PacketManager
         action.Add(PacketType.S_Login, packetHandler.S_LoginAction);
         packetTypes.Add(PacketType.S_Login, MakePacket<S_Login>);
 
+		action.Add(PacketType.S_PlayerMove, packetHandler.S_PlayerMoveAction);
+        packetTypes.Add(PacketType.S_PlayerMove, MakePacket<S_PlayerMove>);
+
 		
     }
 

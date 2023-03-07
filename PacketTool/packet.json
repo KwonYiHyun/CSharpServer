@@ -15,6 +15,20 @@
       "char": "ms"
     }
   ],
+  "S_PlayerMove": [
+    {
+      "int": "posX",
+      "int": "posY",
+      "int": "posZ",
+    }
+  ],
+  "C_PlayerMove": [
+    {
+      "int": "posX",
+      "int": "posY",
+      "int": "posZ",
+    }
+  ],
   "S_PacketEnd": [
 
   ]

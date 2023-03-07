@@ -18,7 +18,7 @@ public class ClientSession : Session
     public override void OnConnected()
     {
         Console.WriteLine("OnConnected");
-        // Program.room.Push(() => Program.room.Enter(this));
+        Program.roomManager.Push(() => Program.roomManager.gameLobby.Enter(this));
     }
 
     public override void OnDisconnected()
@@ -46,4 +46,11 @@ public class ClientSession : Session
         return socket.SendAsync(buffer, flags);
     }
 
+    public override Task SendAsync(List<ArraySegment<byte>> buffer)
+    {
+        if (buffer.Count == 0)
+            return Task.CompletedTask;
+
+        return socket.SendAsync(buffer, SocketFlags.None);
+    }
 }

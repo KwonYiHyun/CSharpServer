@@ -37,4 +37,8 @@ public class ServerSession : Session
         return socket.SendAsync(buffer, flags);
     }
 
+    public override Task SendAsync(List<ArraySegment<byte>> buffer)
+    {
+        return Task.CompletedTask;
+    }
 }
