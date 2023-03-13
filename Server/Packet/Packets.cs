@@ -20,7 +20,7 @@ public class S_Login : IPacket
     public float pos;
     public int id;
     public char type;
-    public PositionInfo positionInfo{ get; set; } = new PositionInfo();
+    public PositionInfo positionInfo { get; set; } = new PositionInfo();
     
     public int offset = 0;
 
@@ -156,7 +156,7 @@ public class S_Login : IPacket
         offset += sizeof(short);
         
         PositionInfo _positionInfo = new PositionInfo();
-        _positionInfo.DeSerialize(new ArraySegment<byte>(buffer, offset, positionInfoSize).ToArray());
+        _positionInfo.DeSerialize(new ArraySegment<byte>(buffer, offset + 2, positionInfoSize - 2).ToArray());
         positionInfo = _positionInfo;
         offset += positionInfoSize;
         
@@ -170,7 +170,7 @@ public class C_Login : IPacket
     public short Protocol { get; set; } = (short)PacketType.C_Login;
     public string msg;
     public char ms;
-    public PositionInfo positionInfo{ get; set; } = new PositionInfo();
+    public PositionInfo positionInfo { get; set; } = new PositionInfo();
     
     public int offset = 0;
 
@@ -237,7 +237,7 @@ public class C_Login : IPacket
         offset += sizeof(short);
         
         PositionInfo _positionInfo = new PositionInfo();
-        _positionInfo.DeSerialize(new ArraySegment<byte>(buffer, offset, positionInfoSize).ToArray());
+        _positionInfo.DeSerialize(new ArraySegment<byte>(buffer, offset + 2, positionInfoSize - 2).ToArray());
         positionInfo = _positionInfo;
         offset += positionInfoSize;
         
@@ -473,7 +473,7 @@ public class ObjectInfo : IPacket
 {
     public short Protocol { get; set; } = (short)PacketType.ObjectInfo;
     public int objectId;
-    public PositionInfo positionInfo{ get; set; } = new PositionInfo();
+    public PositionInfo positionInfo { get; set; } = new PositionInfo();
     
     public int offset = 0;
 
@@ -527,7 +527,7 @@ public class ObjectInfo : IPacket
         offset += sizeof(short);
         
         PositionInfo _positionInfo = new PositionInfo();
-        _positionInfo.DeSerialize(new ArraySegment<byte>(buffer, offset, positionInfoSize).ToArray());
+        _positionInfo.DeSerialize(new ArraySegment<byte>(buffer, offset + 2, positionInfoSize - 2).ToArray());
         positionInfo = _positionInfo;
         offset += positionInfoSize;
         

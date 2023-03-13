@@ -327,7 +327,7 @@ public enum PacketType
         offset += sizeof(short);
         
         " + varName + " _" + className + " = new " + varName + @"();
-        _" + className + ".DeSerialize(new ArraySegment<byte>(buffer, offset, " + className + @"Size).ToArray());
+        _" + className + ".DeSerialize(new ArraySegment<byte>(buffer, offset + 2, " + className + @"Size - 2).ToArray());
         " + className + " = " + "_" + className + @";
         offset += " + className + @"Size;
         " + Environment.NewLine + "\t";
