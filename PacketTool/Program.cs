@@ -31,6 +31,7 @@ public class {1} : IPacket
 {{
     public short Protocol {{ get; set; }} = (short)PacketType.{1};
     {0}
+    public int offset = 0;
 
     public byte[] Serialize()
     {{
@@ -41,7 +42,7 @@ public class {1} : IPacket
 
         byte[] buffer = new byte[2 + dataSize];
 
-        int offset = 0;
+        offset = 0;
 
         Array.Copy(header, 0, buffer, offset, header.Length);
         offset += header.Length;
@@ -55,7 +56,7 @@ public class {1} : IPacket
 
     public void DeSerialize(byte[] buffer)
     {{
-        int offset = 2;
+        offset = 2;
 
         {4}
     }}
@@ -161,7 +162,7 @@ public enum PacketType
 
             foreach (var item in json)
             {
-                if (item.Contains("S_") || item.Contains("C_"))
+                if (item.Contains("S_") || item.Contains("C_") || item.Contains("Class_"))
                 {
                     if (isPkt)
                     {
@@ -173,6 +174,8 @@ public enum PacketType
                     arrayCopy = "";
                     read = "";
                     packetName = item.Split("\": [")[0].Split("\"")[1];
+                    if (packetName.Contains("Class_"))
+                        packetName = packetName.Split("Class_")[1];
 
                     if (!item.Contains("S_PacketEnd"))
                     {
@@ -212,7 +215,7 @@ public enum PacketType
 
 
             string filePath = Directory.GetCurrentDirectory();
-            File.WriteAllText(filePath + "\\packets.cs", string.Format(packets, packetclasses));
+            File.WriteAllText(filePath + "\\Packets.cs", string.Format(packets, packetclasses));
             File.WriteAllText(filePath + "\\ServerPacketManager.cs", string.Format(serverPacketManager, packetManagerServerAction));
             File.WriteAllText(filePath + "\\ClientPacketManager.cs", string.Format(clientPacketManager, packetManagerClientAction));
             File.WriteAllText(filePath + "\\PacketType.cs", string.Format(packetType, types));
@@ -225,7 +228,7 @@ public enum PacketType
                 return "";
             }
 
-            if(str.Contains("S_") || str.Contains("C_"))
+            if(str.Contains("S_") || str.Contains("C_") || str.Contains("Class_"))
             {
                 return "";
             }
@@ -317,7 +320,17 @@ public enum PacketType
         }
 
         ";
-                    
+                    break;
+                case "Class":
+                    string className = varName.Substring(0, 1).ToLower() + varName.Substring(1, varName.Length - 1);
+                    read += "short " + className + @"Size = IPAddress.NetworkToHostOrder(BitConverter.ToInt16(buffer, offset));
+        offset += sizeof(short);
+        
+        " + varName + " _" + className + " = new " + varName + @"();
+        _" + className + ".DeSerialize(new ArraySegment<byte>(buffer, offset, " + className + @"Size).ToArray());
+        " + className + " = " + "_" + className + @";
+        offset += " + className + @"Size;
+        " + Environment.NewLine + "\t";
                     break;
                 default:
                     break;
@@ -373,6 +386,18 @@ public enum PacketType
         }" + Environment.NewLine + Environment.NewLine + "\t";
                     #endregion
                     break;
+                case "Class":
+                    string className = varName.Substring(0, 1).ToLower() + varName.Substring(1, varName.Length - 1);
+                    result = "byte[] " + varName + "Pkt = " + className + @".Serialize();
+        byte[] " + varName + "Size = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)" + varName + "Pkt.Length));";
+                    bytesLen += " + " + varName + "Pkt.Length + " + varName + "Size.Length";
+                    // arrayCopy += "\tArray.Copy(" + className + ".Serialize(), 0, buffer, offset, " + className + @".offset);
+                    // offset += " + className + ".offset;";
+                    arrayCopy += @"Array.Copy(" + varName + @"Size, 0, buffer, offset, " + varName + @"Size.Length);
+        offset += " + varName + @"Size.Length;
+        Array.Copy(" + varName + "Pkt, 0, buffer, offset, " + varName + @"Pkt.Length);
+        offset += " + varName + "Pkt.Length;" + Environment.NewLine + Environment.NewLine + "\t";
+                    break;
                 default:
                     break;
             }
@@ -404,6 +429,10 @@ public enum PacketType
                 case "float":
                 case "double":
                     result = "public " + vari + " " + str.Split("\": \"")[1].Split("\"")[0] + ";";
+                    break;
+                case "Class":
+                    string name = str.Split("\": \"")[1].Split("\"")[0];
+                    result = "public " + name + " " + name.Substring(0, 1).ToLower() + name.Substring(1, name.Length - 1) + " { get; set; } = new " + name + "();";
                     break;
                 default:
                     break;

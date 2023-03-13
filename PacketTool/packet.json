@@ -6,13 +6,15 @@
       "bool": "isMine",
       "float": "pos",
       "int": "id",
-      "char": "type"
+      "char": "type",
+      "Class": "PositionInfo"
     }
   ],
   "C_Login": [
     {
       "string": "msg",
-      "char": "ms"
+      "char": "ms",
+      "Class": "PositionInfo"
     }
   ],
   "S_PlayerMove": [
@@ -27,6 +29,18 @@
       "int": "posX",
       "int": "posY",
       "int": "posZ",
+    }
+  ],
+  "Class_PositionInfo": [
+    {
+      "int": "posX",
+      "int": "posY",
+    }
+  ],
+  "Class_ObjectInfo": [
+    {
+      "int": "objectId",
+      "Class": "PositionInfo"
     }
   ],
   "S_PacketEnd": [

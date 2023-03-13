@@ -22,11 +22,14 @@ class Program
         arr.Add(10);
         arr.Add(20);
         arr.Add(30);
-
+        PositionInfo info = new PositionInfo();
+        info.posX = 10;
+        info.posY = 20;
         for (int i = 0; i < 200; i++)
         {
             C_Login pkt = new C_Login();
             pkt.msg = "aaaa" + i;
+            pkt.positionInfo = info;
 
             await SessionManager.Instance.sessions[1].SendAsync(pkt.Serialize());
 

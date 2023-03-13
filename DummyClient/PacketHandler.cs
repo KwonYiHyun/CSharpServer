@@ -35,4 +35,11 @@ public class PacketHandler
 
         await Task.Delay(100);
     }
+
+    public async void S_PlayerMoveAction(Session session, IPacket packet)
+    {
+        Console.WriteLine("S_PlayerMoveAction");
+
+        await Task.Delay(100);
+    }
 }

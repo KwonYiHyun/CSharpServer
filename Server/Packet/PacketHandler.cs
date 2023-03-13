@@ -6,34 +6,12 @@ using Core;
 
 public class PacketHandler
 {
-    public void S_LoginAction(ClientSession session, IPacket packet)
-    {
-        S_Login pkt = packet as S_Login;
-        ClientSession clientSession = session as ClientSession;
-
-        //Console.WriteLine($"S_LoginAction : {pkt.msg}");
-        //foreach (var item in pkt.arr)
-        //{
-        //    Console.WriteLine($"item : {item}");
-        //}
-        //Console.WriteLine($"isMine : {pkt.isMine}");
-        //Console.WriteLine($"pos : {pkt.pos}");
-        //Console.WriteLine($"id : {pkt.id}");
-        //Console.WriteLine($"type : {pkt.type}");
-
-        // session.Room.Push(() => { Console.WriteLine("S_LoginActionHandler"); });
-        // session.Room.Push(() => { session.Room.Broadcast(session); });
-
-        Console.WriteLine("id = " + pkt.id + " / msg = " + pkt.msg);
-    }
-
     public void C_LoginAction(ClientSession session, IPacket packet)
     {
         C_Login pkt = packet as C_Login;
         ClientSession clientSession = session as ClientSession;
 
-
-        Console.WriteLine("msg = " + pkt.msg);
+        Console.WriteLine("msg = " + pkt.msg + " / info : " + pkt.positionInfo.posX + " / info : " + pkt.positionInfo.posY);
 
         S_Login pp = new S_Login();
         pp.msg = "c -> s";
@@ -41,13 +19,6 @@ public class PacketHandler
         // await clientSession.SendAsync(pp.Serialize());
 
         Program.roomManager.Push(async () => await clientSession.SendAsync(pp.Serialize()));
-    }
-
-    public async void S_UserEnterAction(ClientSession session, IPacket packet)
-    {
-        Console.WriteLine("S_UserEnterAction");
-
-        await Task.Delay(100);
     }
 
     public async void C_UserEnterAction(ClientSession session, IPacket packet)

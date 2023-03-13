@@ -11,5 +11,7 @@ public enum PacketType
 	C_Login,
 	S_PlayerMove,
 	C_PlayerMove,
+	PositionInfo,
+	ObjectInfo,
 	
 }
