@@ -22,18 +22,36 @@ public class GameLobby : GameRoom
     }
 }
 
-public class GameRoom
+public class GameRoom : JobSerializer
 {
     public int RoomId { get; set; }
 
+    Dictionary<int, Player> _players = new Dictionary<int, Player>();
+    Dictionary<int, Projectile> _projectiles = new Dictionary<int, Projectile>();
+
     List<ClientSession> _sessions = new List<ClientSession>();
-    List<ArraySegment<byte>> _pendingList = new List<ArraySegment<byte>>();
-
-    public void Broadcast(ClientSession session, IPacket packet)
+    
+    public void Init()
     {
-        ArraySegment<byte> buffer = packet.Serialize();
 
-        _pendingList.Add(buffer);
+    }
+
+    public void Update()
+    {
+        foreach (Projectile projectile in _projectiles.Values)
+        {
+            projectile.Update();
+        }
+
+        Flush();
+    }
+
+    public void Broadcast(IPacket packet)
+    {
+        foreach (Player p in _players.Values)
+        {
+            p.Session.SendAsync(packet.Serialize());
+        }
     }
 
     public virtual void Enter(ClientSession session)
@@ -50,13 +68,5 @@ public class GameRoom
     public void Push(ClientSession session, Action action)
     {
         Program.roomManager.Push(action);
-    }
-    
-    public async Task Flush()
-    {
-        foreach (ClientSession s in _sessions)
-        {
-            await s.SendAsync(_pendingList);
-        }
     }
 }

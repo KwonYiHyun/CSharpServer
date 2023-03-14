@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 public class GameRoomManager : IJobQueue
 {
+    public static GameRoomManager Instance { get; } = new GameRoomManager();
+
     public GameLobby gameLobby = new GameLobby();
 
     int _roomId = 0;
@@ -45,14 +47,14 @@ public class GameRoomManager : IJobQueue
         }
     }
 
-    public async Task Flush()
-    {
-        foreach (KeyValuePair<int, GameRoom> room in _rooms)
-        {
-            await room.Value.Flush();
-        }
-        await gameLobby.Flush();
-    }
+    //public async Task Flush()
+    //{
+    //    foreach (KeyValuePair<int, GameRoom> room in _rooms)
+    //    {
+    //        await room.Value.Flush();
+    //    }
+    //    await gameLobby.Flush();
+    //}
 
     public GameRoom Find(int id)
     {

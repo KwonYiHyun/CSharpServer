@@ -40,7 +40,7 @@ public class Listener
         }
     }
 
-    public async void RunAsync(object? sender)
+    public async void RunAsync(object sender)
     {
         ClientSession session = sender as ClientSession;
         byte[] headerBuffer = new byte[2];
